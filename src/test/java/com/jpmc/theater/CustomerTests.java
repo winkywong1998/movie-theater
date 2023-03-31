@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CustomerTest {
+public class CustomerTests {
     @Test
     public void equalsAndHashCode() {
         Customer customer1 = new Customer("John Doe", "123");
