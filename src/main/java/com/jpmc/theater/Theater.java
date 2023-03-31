@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Represents a movie theater that allows customers to reserve seats for a movie showing.
+ */
 public class Theater {
 
     LocalDateProvider provider;
@@ -36,6 +39,14 @@ public class Theater {
         );
     }
 
+    /**
+     * Reserves seats for a showing with the given sequence number and number of tickets for a customer.
+     * @param customer       the customer making the reservation
+     * @param sequence       the sequence number of the showing to reserve seats for
+     * @param howManyTickets the number of seats to reserve
+     * @return the Reservation object representing the reserved seats.
+     * @throws IndexOutOfBoundsException if the sequence number is invalid or out of bounds.
+     */
     public Reservation reserve(Customer customer, int sequence, int howManyTickets) {
         Showing showing;
         try {
@@ -49,6 +60,9 @@ public class Theater {
         return new Reservation(customer, showing, howManyTickets);
     }
 
+    /**
+     * Prints the movie schedule to standard output in a human-readable format.
+     */
     public void printSchedule() {
         System.out.println(provider.currentDate());
         System.out.println("===================================================");
@@ -58,11 +72,17 @@ public class Theater {
         System.out.println("===================================================");
     }
 
+    /**
+     * Prints the movie schedule to standard output in JSON format.
+     */
     public void printScheduleJSON() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         System.out.println(gson.toJson(schedule));
     }
 
+    /**
+     * Prints the movie schedule to standard output in JSON format with human-readable running time.
+     */
     public void printScheduleJSONReadable() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         List<Map<String, Object>> scheduleList = new ArrayList<>();
@@ -78,6 +98,13 @@ public class Theater {
         System.out.println(gson.toJson(scheduleList));
     }
 
+    /**
+     * Formats the duration in human readable format with hours and minutes.
+     * If the duration is 1 hour and 1 minute, it would be formatted as (1 hour 1 minute).
+     *
+     * @param duration the duration to be formatted
+     * @return the formatted string
+     */
     public String humanReadableFormat(Duration duration) {
         long hour = duration.toHours();
         long remainingMin = duration.toMinutes() - TimeUnit.HOURS.toMinutes(duration.toHours());
@@ -85,6 +112,11 @@ public class Theater {
         return String.format("(%s hour%s %s minute%s)", hour, handlePlural(hour), remainingMin, handlePlural(remainingMin));
     }
 
+    /**
+     * Helper method to handle plural suffix for a given value.
+     * @param value the value to check
+     * @return the plural suffix
+     */
     // (s) postfix should be added to handle plural correctly
     private String handlePlural(long value) {
         if (value == 1) {
@@ -94,7 +126,7 @@ public class Theater {
             return "s";
         }
     }
-
+    
     public static void main(String[] args) {
         Theater theater = new Theater(LocalDateProvider.singleton());
         theater.printSchedule();
