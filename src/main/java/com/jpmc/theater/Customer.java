@@ -2,6 +2,9 @@ package com.jpmc.theater;
 
 import java.util.Objects;
 
+/**
+ * Represents a customer with a name and ID.
+ */
 public class Customer {
     private String name;
     private String id;
