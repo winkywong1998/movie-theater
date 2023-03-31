@@ -43,7 +43,7 @@ public class Movie {
     }
 
     private double getDiscount(Showing showing) {
-        //Use a priority queue to keep track of the biggest discount
+        // Use a priority queue to keep track of the biggest discount
         Queue<Double> biggestDiscount = new PriorityQueue<>(Collections.reverseOrder());
         if (MOVIE_CODE_SPECIAL == specialCode) {
             biggestDiscount.offer(ticketPrice * 0.2);  // 20% discount for special movie
@@ -68,7 +68,7 @@ public class Movie {
         LocalTime time = dateTime.toLocalTime();
         LocalTime start = LocalTime.of(11, 0); // 11 AM
         LocalTime end = LocalTime.of(16, 0); // 4 PM
-        //Use equal to check the including star and end hour
+        // Use equal to check the including star and end hour
         return (time.equals(start) || time.isAfter(start)) && (time.equals(end) || time.isBefore(end));
     }
 

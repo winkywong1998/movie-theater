@@ -12,7 +12,7 @@ public class Reservation {
     }
 
     public double totalFee() {
-        //TotalFee should return the final price after discount instead of original price
+        // TotalFee should return the final price after discount instead of original price
         return showing.calculateFee(audienceCount);
     }
 }
