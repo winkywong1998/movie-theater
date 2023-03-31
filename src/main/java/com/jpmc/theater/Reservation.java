@@ -9,11 +9,11 @@ public class Reservation {
     private int audienceCount;
 
     /**
-     * Creates a new reservation object for the given customer and showing with the specified audience count.
+     * Constructs a new reservation object for the given customer and showing with the specified audience count.
      *
-     * @param customer      the customer making reservation.
-     * @param showing       the showing for which the reservation is being made.
-     * @param audienceCount the number of people in the audience for the reservation.
+     * @param customer      the customer making reservation
+     * @param showing       the showing for which the reservation is being made
+     * @param audienceCount the number of people in the audience for the reservation
      */
     public Reservation(Customer customer, Showing showing, int audienceCount) {
         this.customer = customer;
