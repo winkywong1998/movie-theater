@@ -8,9 +8,11 @@ import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+/**
+ * Represents a movie with a title, running time, ticket price, and special code
+ */
 public class Movie {
     private static int MOVIE_CODE_SPECIAL = 1;
-
     private String title;
     //The description here is never used
     private String description;
@@ -18,6 +20,15 @@ public class Movie {
     private double ticketPrice;
     private int specialCode;
 
+    /**
+     * Constructs a new Movie object with the given title, description, running time, ticket price, and special code.
+     *
+     * @param title       movie title
+     * @param description movie description
+     * @param runningTime movie running time
+     * @param ticketPrice movie ticket price
+     * @param specialCode movie special code
+     */
     public Movie(String title,String description, Duration runningTime, double ticketPrice, int specialCode) {
         this.title = title;
         this.description = description;
@@ -26,22 +37,45 @@ public class Movie {
         this.specialCode = specialCode;
     }
 
+    /**
+     * Returns the title of the movie.
+     * @return the title of the movie
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Returns the running time of the movie.
+     * @return the running time of the movie
+     */
     public Duration getRunningTime() {
         return runningTime;
     }
 
+    /**
+     * Returns the ticket price of the movie.
+     * @return the ticket price of the movie
+     */
     public double getTicketPrice() {
         return ticketPrice;
     }
 
+    /**
+     * Calculates the ticket price for the given showing of the movie based on any applicable discounts.
+     *
+     * @param showing the showing of the movie for which to calculate the ticket price
+     * @return the ticket price for the given showing of the movie
+     */
     public double calculateTicketPrice(Showing showing) {
         return ticketPrice - getDiscount(showing);
     }
 
+    /**
+     * Returns the biggest discount applicable for the given showing of the movie.
+     * @param showing the showing of the movie for which to get the discount
+     * @return the biggest discount applicable for the given showing of the movie
+     */
     private double getDiscount(Showing showing) {
         // Use a priority queue to keep track of the biggest discount
         Queue<Double> biggestDiscount = new PriorityQueue<>(Collections.reverseOrder());
@@ -64,6 +98,11 @@ public class Movie {
         return biggestDiscount.isEmpty() ? 0 : biggestDiscount.poll();
     }
 
+    /**
+     * Checks if the given date time falls within a specified time range (11AM-4PM).
+     * @param dateTime the date and time to check
+     * @return true if the time of the given date time falls within the specified range, false otherwise
+     */
     private boolean isBetween(LocalDateTime dateTime){
         LocalTime time = dateTime.toLocalTime();
         LocalTime start = LocalTime.of(11, 0); // 11 AM
@@ -72,10 +111,22 @@ public class Movie {
         return (time.equals(start) || time.isAfter(start)) && (time.equals(end) || time.isBefore(end));
     }
 
+    /**
+     * Checks if the given date time falls on the specified date.
+     * @param dateTime the date and time to check
+     * @param date the date to check for
+     * @return true if the date of the given date time matches the specified date, false otherwise
+     */
     private boolean onDate(LocalDateTime dateTime, int date) {
         return dateTime.getDayOfMonth() == date;
     }
 
+    /**
+     * Compares this movie to another object for equality.
+     *
+     * @param o the object to compare to
+     * @return true if the objects are equal, false otherwise
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,6 +139,11 @@ public class Movie {
                 && Objects.equals(specialCode, movie.specialCode);
     }
 
+    /**
+     * Returns a hash code for this movie.
+     *
+     * @return the hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(title, description, runningTime, ticketPrice, specialCode);

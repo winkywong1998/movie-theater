@@ -26,7 +26,7 @@ public class LocalDateProvider {
         }
         return instance;
     }
-    
+
     /**
      * Returns the current local date.
      *
