@@ -12,6 +12,7 @@ public class Reservation {
     }
 
     public double totalFee() {
-        return showing.getMovieFee() * audienceCount;
+        //TotalFee should return the final price after discount instead of original price
+        return showing.calculateFee(audienceCount);
     }
 }

@@ -21,9 +21,10 @@ public class Showing {
         return showStartTime;
     }
 
-    public boolean isSequence(int sequence) {
-        return this.sequenceOfTheDay == sequence;
-    }
+    //The isSequence() method is confusing and duplicated
+//    public boolean isSequence(int sequence) {
+//        return this.sequenceOfTheDay == sequence;
+//    }
 
     public double getMovieFee() {
         return movie.getTicketPrice();
@@ -33,7 +34,8 @@ public class Showing {
         return sequenceOfTheDay;
     }
 
-    private double calculateFee(int audienceCount) {
+    //Have to make it public so that the final fee can be obtained
+    public double calculateFee(int audienceCount) {
         return movie.calculateTicketPrice(this) * audienceCount;
     }
 }
