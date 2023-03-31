@@ -12,13 +12,11 @@ public class Customer {
      * Constructs a new customer with the given name and ID.
      *
      * @param name customer name
-     * @param id customer id
+     * @param id   customer id
      */
     public Customer(String name, String id) {
         this.id = id; // NOTE - id is not used anywhere at the moment
-
         this.name = name;
-
     }
 
     /**

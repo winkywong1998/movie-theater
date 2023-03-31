@@ -99,7 +99,7 @@ public class Theater {
     }
 
     /**
-     * Formats the duration in human readable format with hours and minutes.
+     * Formats the duration in human-readable format with hours and minutes.
      * If the duration is 1 hour and 1 minute, it would be formatted as (1 hour 1 minute).
      *
      * @param duration the duration to be formatted
@@ -126,7 +126,7 @@ public class Theater {
             return "s";
         }
     }
-    
+
     public static void main(String[] args) {
         Theater theater = new Theater(LocalDateProvider.singleton());
         theater.printSchedule();

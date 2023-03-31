@@ -114,9 +114,10 @@ public class Movie {
     /**
      * Checks if the given date time falls on the specified date.
      * @param dateTime the date and time to check
-     * @param date the date to check for
+     * @param date     the date to check for
      * @return true if the date of the given date time matches the specified date, false otherwise
      */
+    //Make the date a pass-in variable instead of hard coded 7 to prevent future modification
     private boolean onDate(LocalDateTime dateTime, int date) {
         return dateTime.getDayOfMonth() == date;
     }
