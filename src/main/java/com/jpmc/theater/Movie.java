@@ -3,12 +3,16 @@ package com.jpmc.theater;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Movie {
     private static int MOVIE_CODE_SPECIAL = 1;
 
     private String title;
+    //The description here is never used
     private String description;
     private Duration runningTime;
     private double ticketPrice;
@@ -38,31 +42,25 @@ public class Movie {
     }
 
     private double getDiscount(Showing showing) {
-        double specialDiscount = 0;
+        //Use a priority queue to keep track of the biggest discount
+        Queue<Double> biggestDiscount = new PriorityQueue<>(Collections.reverseOrder());
         if (MOVIE_CODE_SPECIAL == specialCode) {
-            specialDiscount = ticketPrice * 0.2;  // 20% discount for special movie
+            biggestDiscount.offer(ticketPrice * 0.2);  // 20% discount for special movie
         }
-        double sequenceDiscount = 0;
         if (showing.getSequenceOfTheDay() == 1) {
-            sequenceDiscount = 3; // $3 discount for 1st show
+            biggestDiscount.offer(3.0); // $3 discount for 1st show
         } else if (showing.getSequenceOfTheDay() == 2) {
-            sequenceDiscount = 2; // $2 discount for 2nd show
+            biggestDiscount.offer(2.0); // $2 discount for 2nd show
         }
         LocalDateTime dateTime = showing.getStartTime();
-        double timeDiscount = 0;
         if (isBetween(dateTime)){
-            timeDiscount = ticketPrice * 0.25;// 25% discount 11AM ~ 4pm
+            biggestDiscount.offer(ticketPrice * 0.25);// 25% discount 11AM ~ 4pm
         }
-        double dateDiscount = 0;
         if (onDate(dateTime, 7)){
-            dateDiscount = 1.0;//1$ discount 7th
+            biggestDiscount.offer(1.0);//1$ discount 7th
         }
-//        else {
-//            throw new IllegalArgumentException("failed exception");
-//        }
-
-        // biggest discount wins
-        return specialDiscount > sequenceDiscount ? specialDiscount : sequenceDiscount;
+        // Biggest discount wins, if no discount applied, return 0
+        return biggestDiscount.isEmpty() ? 0 : biggestDiscount.poll();
     }
 
     private boolean isBetween(LocalDateTime dateTime){
