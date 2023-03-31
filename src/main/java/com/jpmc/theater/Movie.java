@@ -18,8 +18,9 @@ public class Movie {
     private double ticketPrice;
     private int specialCode;
 
-    public Movie(String title, Duration runningTime, double ticketPrice, int specialCode) {
+    public Movie(String title,String description, Duration runningTime, double ticketPrice, int specialCode) {
         this.title = title;
+        this.description = description;
         this.runningTime = runningTime;
         this.ticketPrice = ticketPrice;
         this.specialCode = specialCode;
@@ -74,7 +75,6 @@ public class Movie {
     private boolean onDate(LocalDateTime dateTime, int date) {
         return dateTime.getDayOfMonth() == date;
     }
-
 
     @Override
     public boolean equals(Object o) {

@@ -1,9 +1,15 @@
 package com.jpmc.theater;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class Theater {
@@ -13,10 +19,10 @@ public class Theater {
 
     public Theater(LocalDateProvider provider) {
         this.provider = provider;
-
-        Movie spiderMan = new Movie("Spider-Man: No Way Home", Duration.ofMinutes(90), 12.5, 1);
-        Movie turningRed = new Movie("Turning Red", Duration.ofMinutes(85), 11, 0);
-        Movie theBatMan = new Movie("The Batman", Duration.ofMinutes(95), 9, 0);
+        // Since the movie is now hard coded and the description is not used, use "Dummy Description" to Represent
+        Movie spiderMan = new Movie("Spider-Man: No Way Home","Dummy Description", Duration.ofMinutes(90), 12.5, 1);
+        Movie turningRed = new Movie("Turning Red", "Dummy Description", Duration.ofMinutes(85), 11, 0);
+        Movie theBatMan = new Movie("The Batman","Dummy Description",  Duration.ofMinutes(95), 9, 0);
         schedule = List.of(
             new Showing(turningRed, 1, LocalDateTime.of(provider.currentDate(), LocalTime.of(9, 0))),
             new Showing(spiderMan, 2, LocalDateTime.of(provider.currentDate(), LocalTime.of(11, 0))),
@@ -36,7 +42,9 @@ public class Theater {
             showing = schedule.get(sequence - 1);
         } catch (RuntimeException ex) {
             ex.printStackTrace();
-            throw new IllegalStateException("not able to find any showing for given sequence " + sequence);
+            // IllegalStateException means a method has been invoked at the wrong time
+            // IndexOutOfBoundsException will be more reasonable since it's input invalidation
+            throw new IndexOutOfBoundsException("Not able to find any showing for given sequence " + sequence);
         }
         return new Reservation(customer, showing, howManyTickets);
     }
@@ -48,6 +56,11 @@ public class Theater {
                 System.out.println(s.getSequenceOfTheDay() + ": " + s.getStartTime() + " " + s.getMovie().getTitle() + " " + humanReadableFormat(s.getMovie().getRunningTime()) + " $" + s.getMovieFee())
         );
         System.out.println("===================================================");
+    }
+
+    public void printScheduleJSON() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        System.out.println(gson.toJson(schedule));
     }
 
     public String humanReadableFormat(Duration duration) {
@@ -70,5 +83,6 @@ public class Theater {
     public static void main(String[] args) {
         Theater theater = new Theater(LocalDateProvider.singleton());
         theater.printSchedule();
+        theater.printScheduleJSON();
     }
 }
