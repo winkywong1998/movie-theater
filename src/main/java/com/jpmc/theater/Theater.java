@@ -63,6 +63,21 @@ public class Theater {
         System.out.println(gson.toJson(schedule));
     }
 
+    public void printScheduleJSONReadable() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        List<Map<String, Object>> scheduleList = new ArrayList<>();
+        for (Showing showing : schedule) {
+            Map<String, Object> showingMap = new HashMap<>();
+            showingMap.put("sequence", showing.getSequenceOfTheDay());
+            showingMap.put("startTime", showing.getStartTime().toString());
+            showingMap.put("movieTitle", showing.getMovie().getTitle());
+            showingMap.put("runningTime", humanReadableFormat(showing.getMovie().getRunningTime()));
+            showingMap.put("movieFee", showing.getMovieFee());
+            scheduleList.add(showingMap);
+        }
+        System.out.println(gson.toJson(scheduleList));
+    }
+
     public String humanReadableFormat(Duration duration) {
         long hour = duration.toHours();
         long remainingMin = duration.toMinutes() - TimeUnit.HOURS.toMinutes(duration.toHours());
@@ -84,5 +99,6 @@ public class Theater {
         Theater theater = new Theater(LocalDateProvider.singleton());
         theater.printSchedule();
         theater.printScheduleJSON();
+        theater.printScheduleJSONReadable();
     }
 }
